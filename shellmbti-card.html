@@ -1,0 +1,53 @@
+<!DOCTYPE html><html lang="zh"><head><meta charset="utf-8"><title>shellmbti</title></head>
+<body style="margin:0;background:#0b0e14;display:flex;flex-direction:column;align-items:center;gap:16px;padding:24px;">
+<canvas id="c" width="1080" height="1440"></canvas>
+<button onclick="dl()" style="background:#2da44e;color:#04260a;border:none;border-radius:99px;padding:14px 44px;font-size:20px;font-weight:900;cursor:pointer;">⬇️ 保存卡片图片</button>
+<p style="color:#8b949e;font-size:13px;">截图或点按钮保存 → 发小红书/朋友圈/群</p>
+<script>
+const S = {"mbti": "ISTJ", "arch": "定时任务成精", "persona": "I=深耕机器内部 · S=稳扎稳打干操作 · T=能自动绝不手点 · J=节奏多样爱尝鲜", "total": 355, "diversity": 23, "top_share": 54, "night": null, "git": 0, "sudo": 11, "longest_len": 373};
+const c = document.getElementById('c'), x = c.getContext('2d');
+x.fillStyle = '#0b0e14'; x.fillRect(0,0,1080,1440);
+// 边框
+x.strokeStyle = '#30363d'; x.lineWidth = 3; x.strokeRect(28,28,1024,1384);
+// 顶部
+x.fillStyle = '#2da44e'; x.font = 'bold 34px sans-serif'; x.textAlign='left';
+x.fillText('⌨ SHELL MBTI', 64, 96);
+x.fillStyle = '#8b949e'; x.font = '24px sans-serif'; x.textAlign='right';
+x.fillText('你的终端，暴露了你是谁', 1016, 96);
+// 大字母
+const L = S.mbti.split(''), cols = ['#58a6ff','#d2a8ff','#3fb950','#f0883e'];
+L.forEach((ch,i)=>{
+  x.fillStyle = cols[i]; x.font = '900 190px -apple-system,"PingFang SC",sans-serif';
+  x.fillText(ch, 90 + i*230, 400);
+});
+// 人格名
+x.fillStyle = '#ffffff'; x.font = 'bold 56px "PingFang SC",sans-serif'; x.textAlign='left';
+x.fillText('定时任务成精', 64, 540);
+x.fillStyle = '#8b949e'; x.font = '26px sans-serif';
+x.fillText(S.persona, 64, 590);
+// 数据条
+const rows = [
+  ['总命令数', S.total.toLocaleString()],
+  ['探索指数', S.diversity + '%'],
+  ['习惯浓度', S.top_share + '%'],
+  ['夜行浓度', S.night===null ? '未知' : S.night + '%'],
+  ['git 命令', String(S.git)],
+  ['sudo 次数', String(S.sudo)],
+];
+rows.forEach((r,i)=>{
+  const y = 690 + i*92;
+  x.fillStyle = '#161b22'; x.fillRect(64, y-40, 952, 72);
+  x.fillStyle = '#e6edf3'; x.font = 'bold 30px "PingFang SC",sans-serif'; x.textAlign='left';
+  x.fillText(r[0], 92, y+8);
+  x.fillStyle = '#3fb950'; x.font = '900 38px sans-serif'; x.textAlign='right';
+  x.fillText(r[1], 986, y+10); x.textAlign='left';
+});
+// 最长命令彩蛋
+x.fillStyle = '#8b949e'; x.font = '22px sans-serif';
+x.fillText('最长一条命令 ' + S.longest_len + ' 字符 —— 你到底在写什么?!', 64, 1300);
+x.fillStyle = '#58a6ff'; x.font = 'bold 26px sans-serif';
+x.fillText('🔍 搜「小薅薅」看更多', 64, 1352);
+x.textAlign='right'; x.fillStyle = '#8b949e'; x.font = '22px sans-serif';
+x.fillText('数据 100% 本地分析 · shellmbti', 1016, 1352);
+function dl(){ const a=document.createElement('a'); a.download='shellmbti.png'; a.href=c.toDataURL('image/png'); a.click(); }
+</script></body></html>
